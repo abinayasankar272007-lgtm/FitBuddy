@@ -1,0 +1,32 @@
+<html><head><title>Your Comic</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+*{font-family:'Poppins',Arial}body{background:#0a0a0f;color:white;margin:0;padding:0}
+.container{max-width:880px;margin:0 auto;padding:24px}
+.top{text-align:center;padding:20px 0}.top h1{font-size:28px;background:linear-gradient(135deg,#f093fb,#f5576c);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.panel{margin-top:28px;background:#16161e;border-radius:20px;overflow:hidden;border:1px solid #2a2a3a}
+.panel img{width:100%;height:540px;object-fit:cover;background:#1e1e2a;display:block}
+.title{color:#fbbf24;padding:16px 18px 0 18px;font-weight:700;font-size:18px}
+.char{background:#000;padding:16px 18px;font-size:14.5px;line-height:1.8}
+.btns{text-align:center;margin:36px}.btns button{padding:13px 30px;border-radius:12px;border:none;font-weight:700;cursor:pointer;margin:6px}
+.yellow{background:#fbbf24;color:#000}.white{background:white;color:#000}
+</style></head><body>
+<div class="container">
+<div class="top"><h1>🎉 Your Comic is Ready da! 🎉</h1><p style="color:#888;font-size:13px">Tanglish dialogues + matching images</p></div>
+<div id="result"><h3 style="text-align:center;margin-top:70px;color:#aaa">✨ Creating magic... 3 sec da...</h3></div>
+</div>
+<script>
+async function load(){
+var info=JSON.parse(localStorage.getItem('comic_data'));
+var res=await fetch('/generate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(info)});
+var result=await res.json();
+var html='';
+for(var i=0;i<result.panels.length;i++){
+var p=result.panels[i];
+html+='<div class="panel"><div class="title">Panel '+(i+1)+': '+p.title+'</div><img src="'+p.image+'"><div class="char"><b>🦸 '+info.character+' - </b>'+p.dialogue+'<br><span style="color:#9ca3af">📖 '+p.narration+'</span></div></div>';
+}
+html+='<div class="btns"><button class="yellow" onclick="window.print()">📄 Download PDF</button><button class="white" onclick="window.location.href=&quot;/&quot;">🏠 Back to Home</button></div>';
+document.getElementById('result').innerHTML=html;
+}
+load();
+</script></body></html>

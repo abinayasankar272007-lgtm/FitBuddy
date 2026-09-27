@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Comic Preview</title>
+    <style>
+        body { background:#111; color:white; font-family:Arial; padding:20px; }
+        .comic-container { max-width:800px; margin:auto; }
+        .panel { background:#222; border-radius:12px; padding:15px; margin-bottom:25px; border:1px solid #444; }
+        .panel h3 { color:#ffcc00; }
+        img { width:100%; border-radius:8px; min-height:300px; background:#333; display:block; }
+        .dialogue { background:#000; padding:10px; border-radius:8px; margin-top:10px; font-style:italic; }
+        a.btn { background:#ffcc00; color:black; padding:12px 20px; text-decoration:none; border-radius:8px; font-weight:bold; display:inline-block; margin-top:10px; }
+    </style>
+</head>
+<body>
+    <div class="comic-container">
+        <h1>🔥 Your Comic is Ready da!</h1>
+        
+        {% for p in layout.panels %}
+        <div class="panel">
+            <h3>Panel {{ p.panel_number }}: {{ p.title }}</h3>
+            
+       <img src="{{ p.image_url }}" onerror="this.onerror=null; this.src='https://picsum.photos/seed/{{ p.panel_number }}/600/600'" alt="panel image" style="width:100%; border-radius:8px; min-height:300px;">
+            <div class="dialogue">
+                <p>{{ p.dialogue }}</p>
+            </div>
+            <p style="color:#aaa; font-size:13px;">{{ p.narration }}</p>
+        </div>
+        {% endfor %}
+
+        <a href="/{{ pdf_path }}" target="_blank" class="btn">📄 Download PDF</a>
+        <br><br>
+        <a href="/" style="color:white;">⬅️ Back to Home</a>
+    </div>
+</body>
+</html>
